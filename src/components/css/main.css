@@ -1,26 +1,17 @@
 .App {
   color: white;
+  background-color: #2C2F33; 
 }
 
-.channels-wrapper {
+.channels-wrapper,
+.server-wrapper,
+.chat-wrapper,
+.friends-list-wrapper {
   min-height: 0px;
   height: 100vh; 
-  background-color: #1f1a1a; 
   overflow-y: auto;
 }
 
-
-.server-wrapper {
-  background-color: #1f1a1a;
-}
-
-.chat-wrapper {
-  background-color: #1f1a1a;
-}
-
-.friends-list-wrapper {
-  background-color: #1f1a1a;
-}
 
 ::-webkit-scrollbar {
   width: 7px;
