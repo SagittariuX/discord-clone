@@ -1,0 +1,28 @@
+/* Styles for Servers.jsx */
+.servers-content-container{
+    align-items: center;
+}
+
+.servers-icon{
+    margin: 20px 0;
+    width: 70px;
+    height: 70px;
+
+    transition: 0.3s !important;
+    border-radius: 50% !important;
+}
+
+.servers-icon:hover{
+    border-radius: 20% !important;
+}
+
+/* Styles for ServerDetail.jsx */
+.server-detail-paper-wrapper{
+    height: 100%;
+    color:white !important;
+    background-color: unset !important;
+}
+
+.server-detail-channel{
+    overflow-y: auto;
+}

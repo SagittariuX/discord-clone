@@ -3,8 +3,8 @@
   background-color: #2C2F33; 
 }
 
-.channels-wrapper,
-.server-wrapper,
+.servers-wrapper,
+.server-detail-wrapper,
 .chat-wrapper,
 .friends-list-wrapper {
   min-height: 0px;
