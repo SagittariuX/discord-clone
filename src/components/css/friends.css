@@ -1,0 +1,9 @@
+/* Styles for FriendsList.jsx */
+.friends-section-box-wrapper{
+    height: 100%;
+}
+
+.friends-list{
+    overflow-y: auto;
+    overflow-x: hidden;
+}

@@ -1,0 +1,8 @@
+.chat-section-box-wrapper{
+    height: 100%;
+}
+
+.chat-logs{
+    overflow-y: auto;
+    overflow-x: hidden;
+}

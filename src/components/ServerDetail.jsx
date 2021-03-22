@@ -1,14 +1,14 @@
 import React from "react";
 
-import { Paper, Grid } from "@material-ui/core";
+import {Box, Grid } from "@material-ui/core";
 import "./css/servers.css";
 
 const ServerName = () => {
   return (
     <Grid item style={{ height: "16.66%" }}>
-      <Paper className="server-detail-paper-wrapper " elevation={0}>
+      <Box className="server-detail-box-wrapper ">
         ServerName
-      </Paper>
+      </Box>
     </Grid>
   );
 };
@@ -16,9 +16,9 @@ const ServerName = () => {
 const ServerChannels = () => {
   return (
     <Grid item style={{ height: "75%" }}>
-      <Paper className="server-detail-paper-wrapper server-detail-channel" elevation={0}>
+      <Box className="server-detail-box-wrapper server-detail-channel">
         Channels
-      </Paper>
+      </Box>
     </Grid>
   );
 };
@@ -26,9 +26,9 @@ const ServerChannels = () => {
 const UserInterface = () => {
   return(
     <Grid item style={{ height: "8.33%" }}>
-      <Paper className="server-detail-paper-wrapper" elevation={0}>
+      <Box className="server-detail-box-wrapper" elevation={0}>
         UserInterface
-      </Paper>
+      </Box>
     </Grid>
   )
 }

@@ -17,12 +17,11 @@
 }
 
 /* Styles for ServerDetail.jsx */
-.server-detail-paper-wrapper{
+.server-detail-box-wrapper{
     height: 100%;
-    color:white !important;
-    background-color: unset !important;
 }
 
 .server-detail-channel{
     overflow-y: auto;
+    overflow-x: hidden;
 }

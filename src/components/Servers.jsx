@@ -10,17 +10,7 @@ const ServerSelect = () => {
 const Servers = () => {
   return (
     <Grid className="servers-content-container" container direction="column">
-      <ServerSelect />
-      <ServerSelect />
-      <ServerSelect />
-      <ServerSelect />
-      <ServerSelect />
-      <ServerSelect />
-      <ServerSelect />
-      <ServerSelect />
-      <ServerSelect />
-      <ServerSelect />
-      <ServerSelect />
+     <ServerSelect/>
     </Grid>
   );
 };

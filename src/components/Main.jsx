@@ -5,7 +5,8 @@ import "./css/main.css";
 
 import Servers from "./Servers";
 import ServerDetail from './ServerDetail';
-import FriendsList from './FriendsList'
+import FriendsSection from './FriendsSection';
+import ChatSection from './ChatSection'
 
 const Main = () => {
   return (
@@ -19,10 +20,10 @@ const Main = () => {
           <ServerDetail/>
         </Grid>
         <Grid className="chat-wrapper" container item xs={6}>
-          Chat Log
+         <ChatSection /> 
         </Grid>
         <Grid className="friends-list-wrapper" container item xs={3}>
-          <FriendsList/>
+          <FriendsSection/>
         </Grid>
       </Grid>
     </>
