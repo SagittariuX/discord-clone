@@ -7,7 +7,7 @@ import {useDispatch, useSelector } from "react-redux";
 import { additionalData, selectUser } from "../redux/UserSlice";
 
 import firestore from "../redux/Firebase";
-import { useCollectionDataOnce,useCollectionData } from "react-firebase-hooks/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import Servers from "./Servers";
 import ServerDetail from "./ServerDetail";
@@ -38,6 +38,13 @@ const Main = () => {
 
 
 
+
+
+
+
+
+
+  
   return (
     <>
       <Grid className="App" container item xs={12}>

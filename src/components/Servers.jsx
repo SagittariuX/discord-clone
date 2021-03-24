@@ -1,9 +1,15 @@
-import { Card, Grid } from "@material-ui/core";
+import { Avatar, Grid } from "@material-ui/core";
 import React, { useEffect } from "react";
 import "./css/servers.css";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
+import {
+  addServer,
+  resetServerList,
+  selectServers,
+  setCurrentServer,
+} from "../redux/ServerSlice";
 
 import firestore from "../redux/Firebase";
 
@@ -13,8 +19,19 @@ import firestore from "../redux/Firebase";
 //Icons
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
-const ServerSelect = () => {
-  return <Card className="servers-icon">Card</Card>;
+const ServerSelect = ({ server }) => {
+  const dispatch = useDispatch();
+
+  if (server)
+    return (
+      <Avatar
+        alt={server.name}
+        style={{ margin: "10px 0" }}
+        onClick={() => dispatch(setCurrentServer(server))}
+      />
+    );
+
+  return <></>;
 };
 
 // const CreateServerForm = () => {
@@ -71,25 +88,30 @@ const ServerSelect = () => {
 
 const Servers = () => {
   const user = useSelector(selectUser);
+  const servers = useSelector(selectServers);
+  const dispatch = useDispatch();
 
   // const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
-    console.log('server')
-    if(user.servers){
-      //const serverRefs = user.servers.map(id => firestore.collection('servers').doc(id));
-
-      firestore.collection('servers').doc(user.servers[0]).get().then(res => {console.log(res.data())})
-      
+    if (user.servers) {
+      dispatch(resetServerList());
+      user.servers.forEach((server) => {
+        firestore
+          .collection("servers")
+          .doc(server)
+          .get()
+          .then((res) => {
+            dispatch(addServer({...res.data(), serverId: res.id}));
+          });
+      });
     }
-  },[user]) 
-
-
-
+  }, [user, dispatch]);
 
   const handleCreateServer = () => {
     const name = prompt("Enter a server name");
-
+    if (name === null) return;
+    if (!name.trim()) return;
     //create new server in firestore
     firestore
       .collection("servers")
@@ -112,9 +134,11 @@ const Servers = () => {
 
   return (
     <Grid className="servers-content-container" container direction="column">
-      {user && user.servers && user.servers.length}
-      
-      
+      {user &&
+        servers.length > 0 &&
+        servers.map((server) => (
+          <ServerSelect key={server.name} server={server} />
+        ))}
       <AddCircleOutlineIcon
         className="my-icons"
         fontSize="large"
