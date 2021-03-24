@@ -1,5 +1,6 @@
 /* Styles for Servers.jsx */
 .servers-content-container{
+    margin: 30px 0;
     align-items: center;
 }
 
@@ -16,6 +17,14 @@
     border-radius: 20% !important;
 }
 
+.create-server-modal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
 /* Styles for ServerDetail.jsx */
 .server-detail-box-wrapper{
     height: 100%;
@@ -24,4 +33,10 @@
 .server-detail-channel{
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.user-info-panel{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

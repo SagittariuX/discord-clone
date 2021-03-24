@@ -1,6 +1,23 @@
+:root{
+  --primary-color: #2C2F33
+}
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(90, 90, 90);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(39, 39, 39);
+  border-radius: 10px;
+}
+
 .App {
   color: white;
-  background-color: #2C2F33; 
+  background-color: var(--primary-color); 
   min-height: 500px !important;
   min-width: 100px !important;
 }
@@ -14,17 +31,9 @@
   overflow-y: auto;
 }
 
-
-::-webkit-scrollbar {
-  width: 7px;
+.my-icons{
+  margin: 10px;
 }
-
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px rgb(90, 90, 90);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgb(39, 39, 39);
-  border-radius: 10px;
+.my-icons:hover{
+  color: gray;
 }

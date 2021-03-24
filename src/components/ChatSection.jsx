@@ -32,7 +32,7 @@ const ChatSection = () => {
   return (
     <Grid
       className="friends-section-container"
-      container
+      container item
       direction="column"
       xs={12}
       spacing={1}
