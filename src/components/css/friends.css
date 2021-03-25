@@ -2,16 +2,20 @@
 .friends-section-container {
   max-height: 100% !important;
   padding-left: 10px !important;
+  padding-right: 10px !important;
   background-color: var(--friends-bar) !important;
 }
 
 .friends-search-bar, .friends-search-input-bar {
+
+  height: 100%;
   background-color: var(--search-bar-color) !important;
-  color: var(--search-bar-font-color) !important;
+  color: var(--search-bar-font-color) !important; 
 }
 
 .friends-search-bar {
   width: 80%;
+  height: 40%;
   padding: 10px;
 }
 
@@ -19,11 +23,17 @@
   height: 100%;
 }
 
+.friends-section-tabs{
+    height: 5%;
+}
+.friends-section-tabpanels{
+    height: 93%;
+}
+
 .friends-list {
   overflow-y: auto;
   overflow-x: hidden;
 }
-
 
 .MuiTabs-indicator {
     background-color: white !important;

@@ -34,10 +34,11 @@ const FriendsSearchBar = ({
 
 const FriendsList = ({tabIndex, setTabIndex}) => {
   return (
-    <Grid item style={{ height: "91.66%" }}>
-      <Box className="friends-section-wrapper friends-list">
-        <Tabs
+    <Grid item style={{ width: '100%', height: "91.66%" }}>
+      <Box className='friends-section-wrapper'>
+      <Tabs
           variant="fullWidth"
+          className='friends-section-tabs'
           value={tabIndex}
           onChange={(e, newValue) => setTabIndex(newValue)}
           aria-label="friends section tab"
@@ -46,11 +47,13 @@ const FriendsList = ({tabIndex, setTabIndex}) => {
           <Tab label="Friends" />
           <Tab label="Server" />
         </Tabs>
+      <Box className="friends-list friends-section-tabpanels">
         <TabPanel value={tabIndex} index={0}/>
         <TabPanel value={tabIndex} index={1}/>
         <TabPanel value={tabIndex} index={2}/>
 
 
+      </Box>
       </Box>
     </Grid>
   );
@@ -58,9 +61,9 @@ const FriendsList = ({tabIndex, setTabIndex}) => {
 
 const TabPanel = ({ index, value, component }) => {
   return (
-    <div role="tabpanel" hidden={index !== value}>
+    <Box role="tabpanel" hidden={index !== value}>
       {index}
-    </div>
+    </Box>
   );
 };
 
