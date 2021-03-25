@@ -7,12 +7,14 @@ export const serversSlice = createSlice({
     currentServer: null,
   },
   reducers: {
-    addServer: (state, action) => {
-      state.servers = [...state.servers, action.payload];
-      if (!state.currentServer) state.currentServer = action.payload; // by default take the first one
+    setServers: (state, action) => {
+      state.servers = action.payload;
     },
     setCurrentServer: (state, action) => {
       state.currentServer = action.payload;
+    },
+    addServer: (state, action) => {
+      state.servers.push(action.payload);
     },
     resetServerList: (state) => {
       state.servers = [];
@@ -25,8 +27,9 @@ export const serversSlice = createSlice({
 });
 
 export const {
-  addServer,
+  setServers,
   setCurrentServer,
+  addServer,
   resetServerList,
   resetServersInfo,
 } = serversSlice.actions;

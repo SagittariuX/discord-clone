@@ -1,28 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Avatar,
-  Box,
-  Grid,
-} from "@material-ui/core";
+import { Avatar, Box, Grid } from "@material-ui/core";
 import "./css/servers.css";
 
-import { useSelector } from "react-redux";
+import ChannelSection from "./ChannelSection";
+
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
 import { selectCurrentServer } from "../redux/ServerSlice";
+import { setChannels } from "../redux/ChannelSlice";
 
 import firestore, { auth } from "../redux/Firebase";
 
 //Icons
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SettingsIcon from "@material-ui/icons/Settings";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 const ServerHeader = ({ currentServer }) => {
+
+  useEffect(() => {
+
+  },[currentServer])
+
   return (
     <Grid item style={{ height: "16.66%" }}>
       <Box className="server-detail-box-wrapper ">
@@ -33,53 +32,10 @@ const ServerHeader = ({ currentServer }) => {
 };
 
 const ServerChannels = ({ currentServer }) => {
-  const [expandAccordion, toggleExpandAccordion] = useState(true);
-
-  const handleAddChannel = () => {
-    const name = prompt("Enter a channel name");
-    if (name === null) return;
-    if (!name.trim()) return;
-    //create new server in firestore
-    firestore
-      .collection("channels")
-      .add({ name: name })
-      .then((res) => {
-        firestore
-          .collection("servers")
-          .doc(currentServer.serverId)
-          .update({
-            channels: [...currentServer.channels, res.id],
-          });
-      })
-      .catch((err) => console.log(err));
-  };
-
   return (
     <Grid item style={{ height: "75%" }}>
       <Box className="server-detail-box-wrapper server-detail-channel">
-        {currentServer ? (
-          <Accordion
-            expanded={expandAccordion}
-            onChange={() => {
-              toggleExpandAccordion(!expandAccordion);
-            }}
-          >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              Channels
-            </AccordionSummary>
-            <AccordionDetails>
-              {currentServer.channels.map((channel) => (
-                <div key={channel}>{channel}</div>
-              ))}
-              <AddCircleOutlineIcon
-                className="my-icons"
-                onClick={handleAddChannel}
-              />
-            </AccordionDetails>
-          </Accordion>
-        ) : (
-          <div>No Server</div>
-        )}
+        {currentServer ? <ChannelSection /> : <div>No Server</div>}
       </Box>
     </Grid>
   );
@@ -102,18 +58,28 @@ const UserInterface = ({ user, auth }) => {
 const ServerDetail = () => {
   const user = useSelector(selectUser);
   const currentServer = useSelector(selectCurrentServer);
-
-  const [serverData, setServerData] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    let unsubscribe = () => {};
     if (currentServer)
-      firestore
+      unsubscribe = firestore
         .collection("servers")
         .doc(currentServer.serverId)
+        .collection("channels")
         .onSnapshot((snapshot) => {
-          setServerData({ ...snapshot.data(), serverId: snapshot.id });
+          dispatch(
+            setChannels(
+              snapshot.docs.map((doc) => ({ ...doc.data(), channelId: doc.id, serverId: currentServer.serverId }))
+            )
+          );
+          // setServerData({ ...snapshot.data(), serverId: snapshot.id });
         });
-  }, [currentServer]);
+
+    return () => {
+      unsubscribe();
+    };
+  }, [dispatch, currentServer]);
 
   return (
     <>
@@ -126,8 +92,8 @@ const ServerDetail = () => {
         spacing={1}
         style={{ maxHeight: "100%" }}
       >
-        <ServerHeader currentServer={serverData} />
-        <ServerChannels currentServer={serverData} />
+        <ServerHeader currentServer={currentServer} />
+        <ServerChannels currentServer={currentServer} />
         <UserInterface user={user} auth={auth} />
       </Grid>
     </>

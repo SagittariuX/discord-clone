@@ -9,6 +9,7 @@ import { auth } from "./redux/Firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout, selectUser } from "./redux/UserSlice";
 import { resetServersInfo } from "./redux/ServerSlice";
+import { resetChannelInfo } from "./redux/ChannelSlice";
 
 function App() {
   const user = useSelector(selectUser);
@@ -28,6 +29,7 @@ function App() {
       } else {
         dispatch(logout());
         dispatch(resetServersInfo());
+        dispatch(resetChannelInfo());
       }
     });
   }, [dispatch]);

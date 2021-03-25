@@ -1,15 +1,10 @@
 import { Avatar, Grid } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React from "react";
 import "./css/servers.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
-import {
-  addServer,
-  resetServerList,
-  selectServers,
-  setCurrentServer,
-} from "../redux/ServerSlice";
+import { selectServers, setCurrentServer } from "../redux/ServerSlice";
 
 import firestore from "../redux/Firebase";
 
@@ -89,35 +84,22 @@ const ServerSelect = ({ server }) => {
 const Servers = () => {
   const user = useSelector(selectUser);
   const servers = useSelector(selectServers);
-  const dispatch = useDispatch();
 
   // const [showCreateModal, setShowCreateModal] = useState(false);
 
-  useEffect(() => {
-    if (user.servers) {
-      dispatch(resetServerList());
-      user.servers.forEach((server) => {
-        firestore
-          .collection("servers")
-          .doc(server)
-          .get()
-          .then((res) => {
-            dispatch(addServer({...res.data(), serverId: res.id}));
-          });
-      });
-    }
-  }, [user, dispatch]);
-
   const handleCreateServer = () => {
-    const name = prompt("Enter a server name");
+    const name = prompt("Enter a server name (Max length 15)");
     if (name === null) return;
     if (!name.trim()) return;
+    if (name.length > 15) {
+      alert('Max length 15');
+      return
+    }
     //create new server in firestore
     firestore
       .collection("servers")
       .add({
         name: name,
-        channels: [],
         members: [user.docId],
       })
       .then((docRef) => {
