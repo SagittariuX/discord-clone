@@ -24,7 +24,7 @@ const ServerSelect = ({ server }) => {
         alt={server.name}
         style={{ margin: "10px 0" }}
         onClick={() => dispatch(setCurrentServer(server))}
-      />
+      >{server.name.charAt(0)}</Avatar>
     );
 
   return <></>;

@@ -1,77 +1,83 @@
 /* Styles for Servers.jsx */
-.servers-content-container{
-    padding: 30px 0;
-    background-color: var(--server-bar);
-    align-items: center;
+.servers-content-container {
+  padding: 30px 0;
+  background-color: var(--server-bar);
+  align-items: center;
 }
 
-.servers-icon{
-    margin: 20px 0;
-    width: 70px;
-    height: 70px;
-    transition: 0.3s !important;
-    border-radius: 50% !important;
+.servers-icon {
+  margin: 20px 0;
+  width: 70px;
+  height: 70px;
+  transition: 0.3s !important;
+  border-radius: 50% !important;
 }
 
-.servers-icon:hover{
-    border-radius: 20% !important;
+.servers-icon:hover {
+  border-radius: 20% !important;
 }
 
-.create-server-modal{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.create-server-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-
 
 /* Styles for ServerDetail.jsx */
-.server-detail-box-wrapper{
-    height: 100%;
-    background-color: var(--server-detail-bar);
+.server-detail-box-wrapper {
+  height: 100%;
+  background-color: var(--server-detail-bar);
 }
 
-.server-header-outer-box{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    background-color: var(--server-bar);
+.server-header-outer-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: var(--server-bar);
 }
 
-.server-header-inner-box{
-    display: flex;
-    height: 80%;
-    align-items: center;
-    padding-left: 15px;
-    background-color: var(--server-detail-bar);
-    border-top-left-radius: 30px;
-    border-bottom:solid 2px rgb(32, 32, 32);
+.server-header-inner-box {
+  display: flex;
+  height: 80%;
+  align-items: center;
+  padding-left: 15px;
+  background-color: var(--server-detail-bar);
+  border-top-left-radius: 30px;
+  border-bottom: solid 2px rgb(32, 32, 32);
 }
 
-.empty-server-prompt-box{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.empty-server-prompt-box {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.server-detail-channel{
-    padding-top: 20px;
-    overflow-y: auto;
-    overflow-x: hidden;
+.server-detail-channel {
+  padding-top: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.user-info-panel{
-    display: flex;
-    padding: 0 10px;
-    background-color: var(--user-interface);
-    justify-content: space-between;
-    align-items: center;
+.user-info-panel {
+  display: flex;
+  padding: 0 10px;
+  background-color: var(--user-interface);
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Styles for ChannelSection.jsx */
-.channel-accordion{
-    color: var(--primary-font-color) !important;
-    background-color: var(--server-detail-bar) !important;
+.channel-accordion {
+  color: var(--primary-font-color) !important;
+  background-color: var(--server-detail-bar) !important;
+}
+
+.channel-btns {
+  color: var(--primary-font-color) !important;
+}
+
+.channel-btns:hover {
+  color: var(--primary-highlight-color) !important;
 }

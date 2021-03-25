@@ -22,7 +22,7 @@ const ChannelSelect = ({ channel }) => {
   const dispatch = useDispatch();
   return (
     <Grid item xs={12}>
-      <Button onClick={() => dispatch(setCurrentChannel(channel))}>
+      <Button className='channel-btns' onClick={() => dispatch(setCurrentChannel(channel))}>
         {channel.name}
       </Button>
     </Grid>
@@ -59,7 +59,7 @@ const ChannelSection = () => {
           toggleExpandAccordion(!expandAccordion);
         }}
       >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon className='my-icons'/>}>
           Channels
         </AccordionSummary>
         <AccordionDetails>

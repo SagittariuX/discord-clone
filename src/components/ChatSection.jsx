@@ -16,9 +16,9 @@ const ChannelHeader = () => {
   return (
     <Grid item style={{ height: "8.33%" }}>
       {!currentChannel ? (
-        <Box className="chat-section-box-wrapper">No Channel Selected</Box>
+        <Box className="chat-section-box-wrapper chat-header">No Channel Selected</Box>
       ) : (
-        <Box className="chat-section-box-wrapper">{currentChannel.name}</Box>
+        <Box className="chat-section-box-wrapper chat-header"># {currentChannel.name}</Box>
       )}
     </Grid>
   );
@@ -57,8 +57,9 @@ const ChatInput = () => {
       style={{ height: "8.33%" }}
     >
       {/* <Box className="chat-section-box-wrapper">ChatInput</Box> */}
-      <Paper style={{ width: 500, padding: 10 }}>
+      <Paper className='chat-input-bar' style={{ width: 500, padding: 10 }}>
         <InputBase
+          className='chat-input-bar'
           fullWidth
           value={input}
           disabled={!currentChannel}
@@ -98,7 +99,7 @@ const ChatLogs = () => {
   }, [currentChannel]);
 
   useEffect(() => {
-    dummy.current.scrollIntoView({behavior: 'smooth'});
+    dummy.current.scrollIntoView();
   },[messages])
 
 
