@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { Grid, Box, Paper, InputBase } from "@material-ui/core";
+import { Grid, Box, Paper, InputBase, Avatar } from "@material-ui/core";
 import "./css/chat.css";
 
 import firebase from "firebase";
@@ -16,9 +16,13 @@ const ChannelHeader = () => {
   return (
     <Grid item style={{ height: "8.33%" }}>
       {!currentChannel ? (
-        <Box className="chat-section-box-wrapper chat-header">No Channel Selected</Box>
+        <Box className="chat-section-box-wrapper chat-header">
+          No Channel Selected
+        </Box>
       ) : (
-        <Box className="chat-section-box-wrapper chat-header"># {currentChannel.name}</Box>
+        <Box className="chat-section-box-wrapper chat-header">
+          # {currentChannel.name}
+        </Box>
       )}
     </Grid>
   );
@@ -57,9 +61,9 @@ const ChatInput = () => {
       style={{ height: "8.33%" }}
     >
       {/* <Box className="chat-section-box-wrapper">ChatInput</Box> */}
-      <Paper className='chat-input-bar' style={{ width: 500, padding: 10 }}>
+      <Paper className="chat-input-bar" style={{ width: 500, padding: 10 }}>
         <InputBase
-          className='chat-input-bar'
+          className="chat-input-bar"
           fullWidth
           value={input}
           disabled={!currentChannel}
@@ -76,7 +80,7 @@ const ChatInput = () => {
 
 const ChatLogs = () => {
   const currentChannel = useSelector(selectCurrentChannel);
-  const dummy = useRef(null)
+  const dummy = useRef(null);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -91,7 +95,7 @@ const ChatLogs = () => {
         .orderBy("timestamp", "asc")
         .limit(50)
         .onSnapshot((snapshot) => {
-          setMessages(snapshot.docs.map((doc) => doc.data()));
+          setMessages(snapshot.docs.map((doc) => ({...doc.data(), messageId: doc.id })));
         });
     return () => {
       unsubscribe();
@@ -100,13 +104,12 @@ const ChatLogs = () => {
 
   useEffect(() => {
     dummy.current.scrollIntoView();
-  },[messages])
-
+  }, [messages]);
 
   return (
     <Grid className="chat-log" item style={{ height: "83.33%" }}>
       {messages.length > 0 ? (
-        messages.map((message) => <Message message={message} />)
+        messages.map((message) => <Message key={message.messageId}  message={message} />)
       ) : (
         <Box>No Message</Box>
       )}
@@ -115,8 +118,15 @@ const ChatLogs = () => {
   );
 };
 
-const Message = ({ message: { message } }) => {
-  return <Box>{message}</Box>;
+const Message = ({ message: { message, author, timestamp } }) => {
+  const { displayName, photo } = author;
+  const date = new Date(timestamp.toDate()).toDateString();
+  return (
+    <Box className="message-box">
+      <Avatar className='chat-avatar' src={photo} alt={displayName} />
+      <Box>{displayName}&nbsp;&nbsp;&nbsp;&nbsp;{date}<br/>{message}</Box>
+    </Box>
+  );
 };
 
 const ChatSection = () => {

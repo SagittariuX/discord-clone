@@ -70,7 +70,7 @@ const ChannelSection = () => {
             />
             {channels.length > 0 &&
               channels.map((channel) => (
-                <ChannelSelect key={channel.serverId} channel={channel} />
+                <ChannelSelect key={channel.channelId} channel={channel} />
               ))}
           </Grid>
         </AccordionDetails>

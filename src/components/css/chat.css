@@ -15,10 +15,20 @@
     border-bottom: solid 2px rgb(32, 32, 32);
 }
 
+.chat-avatar {
+    margin-right: 10px;
+    cursor: pointer;
+}
 
 .chat-input-bar{
     background-color: #444444 !important;
     color: white !important;
 }
 
+
+.message-box{
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
 
