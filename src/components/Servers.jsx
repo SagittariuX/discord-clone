@@ -20,6 +20,7 @@ const ServerSelect = ({ server }) => {
   if (server)
     return (
       <Avatar
+        className='my-avatar'
         alt={server.name}
         style={{ margin: "10px 0" }}
         onClick={() => dispatch(setCurrentServer(server))}
@@ -28,58 +29,6 @@ const ServerSelect = ({ server }) => {
 
   return <></>;
 };
-
-// const CreateServerForm = () => {
-//   const onSubmit = async () => {
-//     console.log("submit");
-//   };
-
-//   const validate = (values) => {
-//     const error = {};
-
-//     if (!values.name.trim()) error.name = "Required";
-
-//     return error;
-//   };
-
-//   return (
-//     <Form
-//       onSubmit={onSubmit}
-//       validate={validate}
-//       render={({ handleSubmit, form }) => (
-//         <form noValidate onSubmit={(e) => handleSubmit(e)}>
-//           <Paper elevation={2}>
-//             <Grid
-//               container
-//               alignContent="center"
-//               direction="column"
-//               spacing={2}
-//             >
-//               <Grid item xs={10}>
-//                 <Field
-//                   fullWidth
-//                   required
-//                   name="name"
-//                   label="Server Name"
-//                   component={TextField}
-//                 ></Field>
-//               </Grid>
-//               <Grid item xs={10}>
-//                 <Button
-//                   type="submit"
-//                   variant="contained"
-//                   color="primary"
-//                 >
-//                   Create
-//                 </Button>
-//               </Grid>
-//             </Grid>
-//           </Paper>
-//         </form>
-//       )}
-//     />
-//   );
-// };
 
 const Servers = () => {
   const user = useSelector(selectUser);

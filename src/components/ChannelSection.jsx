@@ -10,6 +10,8 @@ import {
 
 import firestore from "../redux/Firebase";
 
+import './css/servers.css'
+
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { selectCurrentServer } from "../redux/ServerSlice";
@@ -51,6 +53,7 @@ const ChannelSection = () => {
   return (
     <Grid item xs={12}>
       <Accordion
+        className='channel-accordion'
         expanded={expandAccordion}
         onChange={() => {
           toggleExpandAccordion(!expandAccordion);

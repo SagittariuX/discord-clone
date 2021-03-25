@@ -17,15 +17,16 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SettingsIcon from "@material-ui/icons/Settings";
 
 const ServerHeader = ({ currentServer }) => {
-
-  useEffect(() => {
-
-  },[currentServer])
-
   return (
     <Grid item style={{ height: "16.66%" }}>
-      <Box className="server-detail-box-wrapper ">
-        {currentServer ? <div>{currentServer.name}</div> : <div>No Server</div>}
+      <Box className="server-detail-box-wrapper server-header-outer-box">
+        <Box className="server-header-panel server-header-inner-box">
+          {currentServer ? (
+            <div>{currentServer.name}</div>
+          ) : (
+            <div>No Server</div>
+          )}
+        </Box>
       </Box>
     </Grid>
   );
@@ -35,7 +36,11 @@ const ServerChannels = ({ currentServer }) => {
   return (
     <Grid item style={{ height: "75%" }}>
       <Box className="server-detail-box-wrapper server-detail-channel">
-        {currentServer ? <ChannelSection /> : <div>No Server</div>}
+        {currentServer ? (
+          <ChannelSection />
+        ) : (
+          <div className="empty-server-prompt-box">No Server</div>
+        )}
       </Box>
     </Grid>
   );
@@ -45,7 +50,7 @@ const UserInterface = ({ user, auth }) => {
   return (
     <Grid item style={{ height: "8.33%" }}>
       <Box className="server-detail-box-wrapper user-info-panel">
-        <Avatar alt={user.displayName} src={user.photo} />
+        <Avatar className="my-avatar" alt={user.displayName} src={user.photo} />
         <div>
           <SettingsIcon className="my-icons" />
           <ExitToAppIcon className="my-icons" onClick={() => auth.signOut()} />
@@ -70,7 +75,11 @@ const ServerDetail = () => {
         .onSnapshot((snapshot) => {
           dispatch(
             setChannels(
-              snapshot.docs.map((doc) => ({ ...doc.data(), channelId: doc.id, serverId: currentServer.serverId }))
+              snapshot.docs.map((doc) => ({
+                ...doc.data(),
+                channelId: doc.id,
+                serverId: currentServer.serverId,
+              }))
             )
           );
           // setServerData({ ...snapshot.data(), serverId: snapshot.id });
@@ -89,7 +98,7 @@ const ServerDetail = () => {
         item
         direction="column"
         xs={12}
-        spacing={1}
+        spacing={0}
         style={{ maxHeight: "100%" }}
       >
         <ServerHeader currentServer={currentServer} />

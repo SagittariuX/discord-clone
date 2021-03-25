@@ -1,5 +1,10 @@
 :root{
-  --primary-color: #2C2F33
+  --primary-font-color: #99aab5;
+  --primary-highlight-color: #ffffff;
+  --primary-color: #2C2F33;
+  --server-bar: #23272a;
+  --server-detail-bar: #282b2f;
+  --user-interface: #26292c;
 }
 ::-webkit-scrollbar {
   width: 7px;
@@ -26,6 +31,7 @@
 .server-detail-wrapper,
 .chat-wrapper,
 .friends-list-wrapper {
+  color: var(--primary-font-color);
   min-height: 0px;
   height: 100vh; 
   overflow-y: auto;
@@ -33,7 +39,13 @@
 
 .my-icons{
   margin: 10px;
+  color: var(--primary-font-color);
+  cursor: pointer;
 }
 .my-icons:hover{
-  color: gray;
+  color: var(--primary-highlight-color);
+}
+
+.my-avatar{
+  cursor: pointer;
 }
