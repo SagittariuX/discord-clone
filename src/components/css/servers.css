@@ -76,6 +76,11 @@
 
 .channel-btns {
   color: var(--primary-font-color) !important;
+  text-transform: none !important;
+}
+
+.focus-channel {
+  color: var(--primary-highlight-color) !important;
 }
 
 .channel-btns:hover {

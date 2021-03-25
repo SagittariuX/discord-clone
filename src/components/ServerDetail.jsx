@@ -71,7 +71,7 @@ const ServerDetail = () => {
       unsubscribe = firestore
         .collection("servers")
         .doc(currentServer.serverId)
-        .collection("channels")
+        .collection("channels").orderBy('timestamp', 'asc')
         .onSnapshot((snapshot) => {
           dispatch(
             setChannels(

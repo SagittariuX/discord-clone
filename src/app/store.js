@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import userReducer from "../redux/UserSlice";
 import serversReducer from "../redux/ServerSlice";
 import channelReducer from "../redux/ChannelSlice";
@@ -9,4 +9,7 @@ export default configureStore({
     servers: serversReducer,
     channels: channelReducer,
   },
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });

@@ -1,36 +1,101 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Box, Grid } from "@material-ui/core";
+import { Box, Grid, InputBase, Paper, Tabs, Tab } from "@material-ui/core";
 
 import "./css/friends.css";
-const FriendsSearchBar = () => {
+const FriendsSearchBar = ({
+  searchInput,
+  setSearchInput,
+  handleSearchSubmit,
+}) => {
   return (
-    <Grid item style={{ height: "8.33%" }}>
-      <Box className="friends-section-box-wrapper">Searchbar</Box>
+    <Grid
+      item
+      container
+      alignItems="center"
+      justify="center"
+      style={{ height: "8.33%" }}
+    >
+      <Paper className="friends-search-bar">
+        <InputBase
+          className="friends-search-input-bar"
+          fullWidth
+          value={searchInput}
+          placeholder="Search for friends by gmail"
+          onChange={(e) => {
+            setSearchInput(e.target.value);
+          }}
+          onKeyDown={(e) => handleSearchSubmit(e)}
+        />
+      </Paper>
     </Grid>
   );
 };
 
-const FriendsList = () => {
+const FriendsList = ({tabIndex, setTabIndex}) => {
   return (
     <Grid item style={{ height: "91.66%" }}>
-      <Box className="friends-section-box-wrapper friends-list">FriendsList</Box>
+      <Box className="friends-section-wrapper friends-list">
+        <Tabs
+          variant="fullWidth"
+          value={tabIndex}
+          onChange={(e, newValue) => setTabIndex(newValue)}
+          aria-label="friends section tab"
+        >
+          <Tab label="Search" />
+          <Tab label="Friends" />
+          <Tab label="Server" />
+        </Tabs>
+        <TabPanel value={tabIndex} index={0}/>
+        <TabPanel value={tabIndex} index={1}/>
+        <TabPanel value={tabIndex} index={2}/>
+
+
+      </Box>
     </Grid>
+  );
+};
+
+const TabPanel = ({ index, value, component }) => {
+  return (
+    <div role="tabpanel" hidden={index !== value}>
+      {index}
+    </div>
   );
 };
 
 const FriendsSection = () => {
+  const [searchInput, setSearchInput] = useState("");
+  const [searchResult, setSearchResult] = useState(null);
+  const [tabIndex, setTabIndex] = useState(1);// 0 = Search 1 = Friends 2 = Server
+
+  const handleSearchSubmit = (e) => {
+    if (e.keyCode === 13) {
+      //enter
+      console.log(searchInput);
+      setTabIndex(0);
+      setSearchInput("");
+    }
+  };
+
   return (
     <Grid
       className="friends-section-container"
-      container item
+      container
+      item
       direction="column"
       xs={12}
-      spacing={1}
-      style={{ maxHeight: "100%", paddingLeft: 10 }}
+      spacing={0}
     >
-      <FriendsSearchBar />
-      <FriendsList />
+      <FriendsSearchBar
+        searchInput={searchInput}
+        setSearchInput={setSearchInput}
+        handleSearchSubmit={handleSearchSubmit}
+      />
+      <FriendsList 
+        tabIndex={tabIndex}
+        setTabIndex={setTabIndex}
+      />
     </Grid>
   );
 };

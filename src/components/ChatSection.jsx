@@ -61,7 +61,7 @@ const ChatInput = () => {
       style={{ height: "8.33%" }}
     >
       {/* <Box className="chat-section-box-wrapper">ChatInput</Box> */}
-      <Paper className="chat-input-bar" style={{ width: 500, padding: 10 }}>
+      <Paper className="chat-bar">
         <InputBase
           className="chat-input-bar"
           fullWidth
@@ -120,7 +120,9 @@ const ChatLogs = () => {
 
 const Message = ({ message: { message, author, timestamp } }) => {
   const { displayName, photo } = author;
-  const date = new Date(timestamp.toDate()).toDateString();
+  
+  //Sometimes firestore does not react quick enough
+  const date = timestamp ? new Date(timestamp.toDate()).toDateString() : '';
   return (
     <Box className="message-box">
       <Avatar className='chat-avatar' src={photo} alt={displayName} />
@@ -132,7 +134,6 @@ const Message = ({ message: { message, author, timestamp } }) => {
 const ChatSection = () => {
   return (
     <Grid
-      className="friends-section-container"
       container
       item
       direction="column"

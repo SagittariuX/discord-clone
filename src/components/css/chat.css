@@ -20,11 +20,14 @@
     cursor: pointer;
 }
 
-.chat-input-bar{
-    background-color: #444444 !important;
-    color: white !important;
+.chat-bar, .chat-input-bar{
+    background-color: var(--search-bar-color) !important;
+    color: var(--search-bar-font-color) !important;
 }
-
+.chat-bar{
+    width: 500px ;
+    padding: 10px ;
+}
 
 .message-box{
     margin-bottom: 10px;

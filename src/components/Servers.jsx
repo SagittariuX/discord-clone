@@ -2,6 +2,8 @@ import { Avatar, Grid } from "@material-ui/core";
 import React from "react";
 import "./css/servers.css";
 
+import firebase from 'firebase';
+
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
 import { selectServers, setCurrentServer } from "../redux/ServerSlice";
@@ -50,6 +52,7 @@ const Servers = () => {
       .add({
         name: name,
         members: [user.docId],
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then((docRef) => {
         //adds new server into current user's list of servers

@@ -8,21 +8,34 @@ import {
   Button,
 } from "@material-ui/core";
 
+import firebase from "firebase";
 import firestore from "../redux/Firebase";
 
-import './css/servers.css'
+import "./css/servers.css";
 
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { selectCurrentServer } from "../redux/ServerSlice";
-import { selectChannels, setCurrentChannel } from "../redux/ChannelSlice";
+import {
+  selectChannels,
+  selectCurrentChannel,
+  setCurrentChannel,
+} from "../redux/ChannelSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const ChannelSelect = ({ channel }) => {
+  const currentChannel = useSelector(selectCurrentChannel);
   const dispatch = useDispatch();
+  let focus = '';
+  if (currentChannel && channel.channelId === currentChannel.channelId )
+    focus = "focus-channel" ;
+
   return (
     <Grid item xs={12}>
-      <Button className='channel-btns' onClick={() => dispatch(setCurrentChannel(channel))}>
+      <Button
+        className={`channel-btns ${focus}`}
+        onClick={() => dispatch(setCurrentChannel(channel))}
+      >
         {channel.name}
       </Button>
     </Grid>
@@ -47,19 +60,22 @@ const ChannelSection = () => {
       .collection("servers")
       .doc(currentServer.serverId)
       .collection("channels")
-      .add({ name: name });
+      .add({
+        name: name,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
   };
 
   return (
     <Grid item xs={12}>
       <Accordion
-        className='channel-accordion'
+        className="channel-accordion"
         expanded={expandAccordion}
         onChange={() => {
           toggleExpandAccordion(!expandAccordion);
         }}
       >
-        <AccordionSummary expandIcon={<ExpandMoreIcon className='my-icons'/>}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon className="my-icons" />}>
           Channels
         </AccordionSummary>
         <AccordionDetails>

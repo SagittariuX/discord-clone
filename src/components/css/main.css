@@ -4,7 +4,11 @@
   --primary-color: #2c2f33;
   --server-bar: #23272a;
   --server-detail-bar: #282b2f;
+  --friends-bar: #282b2f;
   --user-interface: #26292c;
+
+  --search-bar-color: #444444 ;
+  --search-bar-font-color: #ffffff ; 
 }
 ::-webkit-scrollbar {
   width: 7px;

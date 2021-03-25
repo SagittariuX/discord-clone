@@ -1,9 +1,30 @@
 /* Styles for FriendsList.jsx */
-.friends-section-box-wrapper{
-    height: 100%;
+.friends-section-container {
+  max-height: 100% !important;
+  padding-left: 10px !important;
+  background-color: var(--friends-bar) !important;
 }
 
-.friends-list{
-    overflow-y: auto;
-    overflow-x: hidden;
+.friends-search-bar, .friends-search-input-bar {
+  background-color: var(--search-bar-color) !important;
+  color: var(--search-bar-font-color) !important;
+}
+
+.friends-search-bar {
+  width: 80%;
+  padding: 10px;
+}
+
+.friends-section-wrapper {
+  height: 100%;
+}
+
+.friends-list {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
+.MuiTabs-indicator {
+    background-color: white !important;
 }
