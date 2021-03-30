@@ -6,9 +6,12 @@
   --server-detail-bar: #282b2f;
   --friends-bar: #282b2f;
   --user-interface: #26292c;
-
+  
   --search-bar-color: #444444 ;
   --search-bar-font-color: #ffffff ; 
+
+  --friend-card-background-color: #444444 ;
+  --friend-card-font-color: #ffffff; 
 }
 ::-webkit-scrollbar {
   width: 7px;
