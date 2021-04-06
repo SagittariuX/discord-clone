@@ -35,6 +35,7 @@ const Main = () => {
 
   useEffect(() => {
     //Grabs all new information from firebase
+    //Run this when user info changes
     if (typeof checkUser === "undefined") return;
     if (checkUser.length === 0) return;
     dispatch(additionalData(checkUser[0]));

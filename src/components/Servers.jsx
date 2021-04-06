@@ -2,13 +2,13 @@ import { Avatar, Grid } from "@material-ui/core";
 import React from "react";
 import "./css/servers.css";
 
-import firebase from 'firebase';
+import {UserCreateServer} from './firestoreOperations/ServerOperations';
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
 import { selectServers, setCurrentServer } from "../redux/ServerSlice";
 
-import firestore from "../redux/Firebase";
+
 
 // import { Form, Field } from "react-final-form";
 // import { TextField } from "final-form-material-ui";
@@ -46,24 +46,9 @@ const Servers = () => {
       alert('Max length 15');
       return
     }
+    
     //create new server in firestore
-    firestore
-      .collection("servers")
-      .add({
-        name: name,
-        members: [user.docId],
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      .then((docRef) => {
-        //adds new server into current user's list of servers
-        firestore
-          .collection("users")
-          .doc(user.docId)
-          .update({
-            servers: [...user.servers, docRef.id],
-          });
-      })
-      .catch((err) => console.log(err));
+    UserCreateServer(name, user);
   };
 
   return (
