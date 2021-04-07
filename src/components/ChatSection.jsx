@@ -3,16 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { Grid, Box, Paper, InputBase, Avatar } from "@material-ui/core";
 import "./css/chat.css";
 
-import firebase from "firebase";
-import firestore from "../redux/Firebase";
 import { selectCurrentChannel } from "../redux/ChannelSlice";
 
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
 
-const ChannelHeader = () => {
-  const currentChannel = useSelector(selectCurrentChannel);
+import {ChatListener, ChatSendMessage} from './firestoreOperations/ChatOperations'
 
+const ChannelHeader = ({currentChannel}) => {
   return (
     <Grid item style={{ height: "8.33%" }}>
       {!currentChannel ? (
@@ -28,25 +26,17 @@ const ChannelHeader = () => {
   );
 };
 
-const ChatInput = () => {
-  const user = useSelector(selectUser);
-  const currentChannel = useSelector(selectCurrentChannel);
+const ChatInput = ({currentChannel, user}) => {
+  
   const [input, setInput] = useState("");
 
   const handleSubmit = (e) => {
+
+    if (input.trim() === '') return;
+
     if (e.keyCode === 13) {
       //enter
-      firestore
-        .collection("servers")
-        .doc(currentChannel.serverId)
-        .collection("channels")
-        .doc(currentChannel.channelId)
-        .collection("messages")
-        .add({
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          message: input,
-          author: user,
-        });
+      ChatSendMessage(currentChannel, input, user)
 
       setInput("");
     }
@@ -78,25 +68,15 @@ const ChatInput = () => {
   );
 };
 
-const ChatLogs = () => {
-  const currentChannel = useSelector(selectCurrentChannel);
+const ChatLogs = ({currentChannel}) => {
+  
   const dummy = useRef(null);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     let unsubscribe = () => {};
     if (currentChannel)
-      unsubscribe = firestore
-        .collection("servers")
-        .doc(currentChannel.serverId)
-        .collection("channels")
-        .doc(currentChannel.channelId)
-        .collection("messages")
-        .orderBy("timestamp", "asc")
-        .limit(50)
-        .onSnapshot((snapshot) => {
-          setMessages(snapshot.docs.map((doc) => ({...doc.data(), messageId: doc.id })));
-        });
+      unsubscribe = ChatListener(currentChannel, setMessages)
     return () => {
       unsubscribe();
     };
@@ -118,6 +98,8 @@ const ChatLogs = () => {
   );
 };
 
+
+//Remember to move this to /assets/
 const Message = ({ message: { message, author, timestamp } }) => {
   const { displayName, photo } = author;
   
@@ -132,6 +114,10 @@ const Message = ({ message: { message, author, timestamp } }) => {
 };
 
 const ChatSection = () => {
+
+  const currentChannel = useSelector(selectCurrentChannel);
+  const user = useSelector(selectUser);
+
   return (
     <Grid
       container
@@ -141,9 +127,9 @@ const ChatSection = () => {
       spacing={1}
       style={{ maxHeight: "100%", paddingLeft: 10 }}
     >
-      <ChannelHeader />
-      <ChatLogs />
-      <ChatInput />
+      <ChannelHeader currentChannel={currentChannel}/>
+      <ChatLogs currentChannel={currentChannel}/>
+      <ChatInput user={user} currentChannel={currentChannel}/>
     </Grid>
   );
 };

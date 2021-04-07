@@ -8,11 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
 import { selectServers, setCurrentServer } from "../redux/ServerSlice";
 
-
-
-// import { Form, Field } from "react-final-form";
-// import { TextField } from "final-form-material-ui";
-
 //Icons
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
@@ -35,8 +30,6 @@ const ServerSelect = ({ server }) => {
 const Servers = () => {
   const user = useSelector(selectUser);
   const servers = useSelector(selectServers);
-
-  // const [showCreateModal, setShowCreateModal] = useState(false);
 
   const handleCreateServer = () => {
     const name = prompt("Enter a server name (Max length 15)");
@@ -65,13 +58,6 @@ const Servers = () => {
       />
 
       {/* Figure out a way in the future to use modal forms */}
-      {/* <Modal
-        className="create-server-modal"
-        open={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
-      >
-        <CreateServerForm />
-      </Modal> */}
     </Grid>
   );
 };

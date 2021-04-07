@@ -8,9 +8,9 @@ import ChannelSection from "./ChannelSection";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
 import { selectCurrentServer } from "../redux/ServerSlice";
-import { setChannels } from "../redux/ChannelSlice";
 
-import firestore, { auth } from "../redux/Firebase";
+import {CurrentServerListener} from './firestoreOperations/ChannelOperations';
+import { auth } from "../redux/Firebase";
 
 //Icons
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -68,23 +68,8 @@ const ServerDetail = () => {
   useEffect(() => {
     let unsubscribe = () => {};
     if (currentServer)
-      unsubscribe = firestore
-        .collection("servers")
-        .doc(currentServer.serverId)
-        .collection("channels").orderBy('timestamp', 'asc')
-        .onSnapshot((snapshot) => {
-          dispatch(
-            setChannels(
-              snapshot.docs.map((doc) => ({
-                ...doc.data(),
-                channelId: doc.id,
-                serverId: currentServer.serverId,
-              }))
-            )
-          );
-          // setServerData({ ...snapshot.data(), serverId: snapshot.id });
-        });
-
+      unsubscribe = CurrentServerListener(currentServer, dispatch)
+    
     return () => {
       unsubscribe();
     };
