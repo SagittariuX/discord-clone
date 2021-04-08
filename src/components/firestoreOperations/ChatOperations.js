@@ -24,17 +24,21 @@ const ChatListener = (currentChannel, setMessages) => {
 export { ChatListener };
 
 const ChatSendMessage = async (currentChannel, input, user) => {
-  firestore
-    .collection("servers")
-    .doc(currentChannel.serverId)
-    .collection("channels")
-    .doc(currentChannel.channelId)
-    .collection("messages")
-    .add({
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      message: input,
-      author: user,
-    });
+  try {
+    await firestore
+      .collection("servers")
+      .doc(currentChannel.serverId)
+      .collection("channels")
+      .doc(currentChannel.channelId)
+      .collection("messages")
+      .add({
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        message: input,
+        author: user,
+      });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export { ChatSendMessage };

@@ -8,9 +8,6 @@ import {
   Button,
 } from "@material-ui/core";
 
-import firebase from "firebase";
-import firestore from "../redux/Firebase";
-
 import "./css/servers.css";
 
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -21,7 +18,10 @@ import {
   selectCurrentChannel,
   setCurrentChannel,
 } from "../redux/ChannelSlice";
+
 import { useDispatch, useSelector } from "react-redux";
+import {CreateNewChannel} from './firestoreOperations/ChannelOperations'
+
 
 const ChannelSelect = ({ channel }) => {
   const currentChannel = useSelector(selectCurrentChannel);
@@ -48,22 +48,15 @@ const ChannelSection = () => {
   const [expandAccordion, toggleExpandAccordion] = useState(true);
 
   const handleAddChannel = () => {
-    const name = prompt("Enter a channel name (Max Length 15)");
-    if (name === null) return;
-    if (!name.trim()) return;
-    if (name.length > 15) {
+    const channelName = prompt("Enter a channel name (Max Length 15)");
+    if (channelName === null) return;
+    if (!channelName.trim()) return;
+    if (channelName.length > 15) {
       alert("Max length 15");
       return;
     }
     //create new channel in firestore
-    firestore
-      .collection("servers")
-      .doc(currentServer.serverId)
-      .collection("channels")
-      .add({
-        name: name,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      });
+    CreateNewChannel(currentServer, channelName)
   };
 
   return (

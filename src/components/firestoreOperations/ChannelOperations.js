@@ -1,5 +1,6 @@
 import { setChannels } from "../../redux/ChannelSlice";
 import firestore from "../../redux/Firebase";
+import firebase from "firebase";
 
 //Listening to changes in the current server
 const CurrentServerListener = (currentServer, dispatch) => {
@@ -22,3 +23,20 @@ const CurrentServerListener = (currentServer, dispatch) => {
 };
 
 export { CurrentServerListener };
+
+const CreateNewChannel = (currentServer, channelName) => {
+  try {
+    firestore
+      .collection("servers")
+      .doc(currentServer.serverId)
+      .collection("channels")
+      .add({
+        name: channelName,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export { CreateNewChannel };

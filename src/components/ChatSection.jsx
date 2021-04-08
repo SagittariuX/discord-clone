@@ -8,9 +8,12 @@ import { selectCurrentChannel } from "../redux/ChannelSlice";
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
 
-import {ChatListener, ChatSendMessage} from './firestoreOperations/ChatOperations'
+import {
+  ChatListener,
+  ChatSendMessage,
+} from "./firestoreOperations/ChatOperations";
 
-const ChannelHeader = ({currentChannel}) => {
+const ChannelHeader = ({ currentChannel }) => {
   return (
     <Grid item style={{ height: "8.33%" }}>
       {!currentChannel ? (
@@ -26,17 +29,15 @@ const ChannelHeader = ({currentChannel}) => {
   );
 };
 
-const ChatInput = ({currentChannel, user}) => {
-  
+const ChatInput = ({ currentChannel, user }) => {
   const [input, setInput] = useState("");
 
   const handleSubmit = (e) => {
-
-    if (input.trim() === '') return;
+    if (input.trim() === "") return;
 
     if (e.keyCode === 13) {
       //enter
-      ChatSendMessage(currentChannel, input, user)
+      ChatSendMessage(currentChannel, input, user);
 
       setInput("");
     }
@@ -68,15 +69,13 @@ const ChatInput = ({currentChannel, user}) => {
   );
 };
 
-const ChatLogs = ({currentChannel}) => {
-  
+const ChatLogs = ({ currentChannel }) => {
   const dummy = useRef(null);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     let unsubscribe = () => {};
-    if (currentChannel)
-      unsubscribe = ChatListener(currentChannel, setMessages)
+    if (currentChannel) unsubscribe = ChatListener(currentChannel, setMessages);
     return () => {
       unsubscribe();
     };
@@ -89,7 +88,9 @@ const ChatLogs = ({currentChannel}) => {
   return (
     <Grid className="chat-log" item style={{ height: "83.33%" }}>
       {messages.length > 0 ? (
-        messages.map((message) => <Message key={message.messageId}  message={message} />)
+        messages.map((message) => (
+          <Message key={message.messageId} message={message} />
+        ))
       ) : (
         <Box>No Message</Box>
       )}
@@ -98,23 +99,25 @@ const ChatLogs = ({currentChannel}) => {
   );
 };
 
-
 //Remember to move this to /assets/
 const Message = ({ message: { message, author, timestamp } }) => {
   const { displayName, photo } = author;
-  
+
   //Sometimes firestore does not react quick enough
-  const date = timestamp ? new Date(timestamp.toDate()).toDateString() : '';
+  const date = timestamp ? new Date(timestamp.toDate()).toDateString() : "";
   return (
     <Box className="message-box">
-      <Avatar className='chat-avatar' src={photo} alt={displayName} />
-      <Box>{displayName}&nbsp;&nbsp;&nbsp;&nbsp;{date}<br/>{message}</Box>
+      <Avatar className="chat-avatar" src={photo} alt={displayName} />
+      <Box>
+        {displayName}&nbsp;&nbsp;&nbsp;&nbsp;{date}
+        <br />
+        {message}
+      </Box>
     </Box>
   );
 };
 
 const ChatSection = () => {
-
   const currentChannel = useSelector(selectCurrentChannel);
   const user = useSelector(selectUser);
 
@@ -127,9 +130,9 @@ const ChatSection = () => {
       spacing={1}
       style={{ maxHeight: "100%", paddingLeft: 10 }}
     >
-      <ChannelHeader currentChannel={currentChannel}/>
-      <ChatLogs currentChannel={currentChannel}/>
-      <ChatInput user={user} currentChannel={currentChannel}/>
+      <ChannelHeader currentChannel={currentChannel} />
+      <ChatLogs currentChannel={currentChannel} />
+      <ChatInput user={user} currentChannel={currentChannel} />
     </Grid>
   );
 };
