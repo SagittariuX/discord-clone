@@ -9,7 +9,7 @@ import "./css/friends.css";
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
 
-import firestore from "../redux/Firebase";
+import { SearchForFriend } from "./firestoreOperations/FriendOperations";
 
 //search bar above the friends section
 const FriendsSearchBar = ({
@@ -34,7 +34,9 @@ const FriendsSearchBar = ({
           onChange={(e) => {
             setSearchInput(e.target.value);
           }}
-          onKeyDown={(e) => handleSearchSubmit(e)}
+          onKeyDown={(e) => {
+            if (e.code === "Enter") handleSearchSubmit();
+          }}
         />
       </Paper>
     </Grid>
@@ -42,7 +44,13 @@ const FriendsSearchBar = ({
 };
 
 //Three tabs and tabpanel below the search bar
-const FriendsList = ({ tabIndex, setTabIndex, searchResult }) => {
+const FriendsList = ({
+  user,
+  tabIndex,
+  setTabIndex,
+  searchResult,
+  handleAddFriend,
+}) => {
   //TabIndex 0=search 1=friends 2=server
   return (
     <Grid item style={{ width: "100%", height: "91.66%" }}>
@@ -62,7 +70,9 @@ const FriendsList = ({ tabIndex, setTabIndex, searchResult }) => {
           <TabPanelSearch
             value={tabIndex}
             index={0}
+            user={user}
             searchResult={searchResult}
+            handleAddFriend={handleAddFriend}
           />
           <TabPanel value={tabIndex} index={1} />
           <TabPanel value={tabIndex} index={2} />
@@ -72,13 +82,19 @@ const FriendsList = ({ tabIndex, setTabIndex, searchResult }) => {
   );
 };
 
-const TabPanelSearch = ({ index, value, searchResult }) => {
-  const user = useSelector(selectUser);
+//Uses Generic Tab Panel and builds on top
+const TabPanelSearch = ({
+  index,
+  value,
+  user,
+  searchResult,
+  handleAddFriend,
+}) => {
   return (
     <TabPanel index={index} value={value}>
-      {searchResult ? (
+      {searchResult && Object.keys(searchResult).length > 0 ? (
         <SearchFriendCard
-          handleAccept={(e) => console.log(e)}
+          handleAccept={handleAddFriend}
           searchResult={searchResult}
         />
       ) : (
@@ -88,6 +104,7 @@ const TabPanelSearch = ({ index, value, searchResult }) => {
   );
 };
 
+//Generic Panel
 const TabPanel = ({ index, value, children }) => {
   return (
     <Box role="tabpanel" hidden={index !== value}>
@@ -98,34 +115,48 @@ const TabPanel = ({ index, value, children }) => {
 
 const FriendsSection = () => {
   const [searchInput, setSearchInput] = useState("");
-  const [searchResult, setSearchResult] = useState(null);
+  const [searchResult, setSearchResult] = useState({});
   const [tabIndex, setTabIndex] = useState(1); // 0 = Search 1 = Friends 2 = Server
+  const user = useSelector(selectUser);
 
-  //Firebase query to find friends
-  const handleSearchSubmit = (e) => {
+  //Finding Friend via Email
+  const handleSearchSubmit = () => {
+    const { email: userEmail, friends: friendsList } = user;
+    const mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     const trimSearchInput = searchInput.trim();
     if (!trimSearchInput) return;
-    if (e.keyCode === 13) {
-      //enter
-      firestore
-        .collection("users")
-        .where("email", "==", trimSearchInput)
-        .limit(1)
-        .get()
-        .then((res) => {
-          if (res.empty) {
-            setSearchResult(null);
-            return;
-          }
-          res.forEach((doc) => {
-            setSearchResult({ ...doc.data(), docId: doc.id });
-          });
-        })
-        .catch((err) => console.log(err));
 
-      setTabIndex(0);
-      setSearchInput("");
+    const checkValidEmail = () => {
+      if (!mailformat.test(trimSearchInput)) {
+        alert("Please enter a valid email");
+        return false;
+      }
+
+      if (trimSearchInput === userEmail) {
+        alert("Hey thats you!");
+        return false;
+      }
+
+      friendsList.forEach(({ email }) => {
+        if (trimSearchInput === email) {
+          alert("Already on your friends' list");
+          return false;
+        }
+      });
+
+      return true;
+    };
+
+    //enter
+    if (checkValidEmail()) {
+      SearchForFriend(trimSearchInput, setSearchResult);
     }
+    setTabIndex(0);
+    setSearchInput("");
+  };
+
+  const handleAddFriend = (e) => {
+    console.log("add friend");
   };
 
   return (
@@ -145,7 +176,9 @@ const FriendsSection = () => {
       <FriendsList
         tabIndex={tabIndex}
         setTabIndex={setTabIndex}
+        user={user}
         searchResult={searchResult}
+        handleAddFriend={handleAddFriend}
       />
     </Grid>
   );

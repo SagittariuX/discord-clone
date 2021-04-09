@@ -5,7 +5,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import {Avatar ,Card, CardContent, IconButton, makeStyles } from "@material-ui/core";
 
 //All variables are stored in components/css/main.css
-const useStyles = makeStyles(() => ({
+const cardStyles = makeStyles(() => ({
   searchFriendCard: {
     display: "flex",
     height: '100%',
@@ -33,8 +33,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+/**
+ * View component for TabPanelSearch
+ * @prop {function} handleAccept
+ * @prop {Object} searchResult 
+ */
 const SearchFriendCard = ({ handleAccept, searchResult }) => {
-  const classes = useStyles();
+  const classes = cardStyles();
   const {displayName, email, photo} = searchResult;
   return (
     <Card className={classes.searchFriendCard}>
