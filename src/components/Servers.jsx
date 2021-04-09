@@ -11,6 +11,7 @@ import { selectServers, setCurrentServer } from "../redux/ServerSlice";
 //Icons
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
+
 const ServerSelect = ({ server }) => {
   const dispatch = useDispatch();
 

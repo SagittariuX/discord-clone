@@ -5,7 +5,7 @@ import "./css/main.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { additionalData, selectUser } from "../redux/UserSlice";
-import { addServer, resetServerList} from "../redux/ServerSlice";
+import { addServer, resetServerList, selectServers} from "../redux/ServerSlice";
 
 import firestore from "../redux/Firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -15,8 +15,17 @@ import ServerDetail from "./ServerDetail";
 import FriendsSection from "./FriendsSection";
 import ChatSection from "./ChatSection";
 
+
+// const myCompareList = (l1, l2) => {
+//   if (l1.length !== l2.length) return false;
+
+//   return l1.every((e) => l2.includes(e));
+// }
+
 const Main = () => {
   const user = useSelector(selectUser);
+  const servers = useSelector(selectServers);
+
   const query = firestore
     .collection("users")
     .where("uid", "==", user.uid)
@@ -39,8 +48,18 @@ const Main = () => {
     if (typeof checkUser === "undefined") return;
     if (checkUser.length === 0) return;
     dispatch(additionalData(checkUser[0]));
+  }, [dispatch, checkUser]);
+
+  useEffect(() => {
+    //Check if user servers have been updated if so reset servers and add in new ones
+    
+    if(!user) return;
+    if(!user.servers) return;
+    
+    //compare serverList before continue
+    //if comparison is true there is no need to redo servers    
     dispatch(resetServerList());
-    checkUser[0].servers.forEach((server) => {
+    user.servers.forEach((server) => {
       firestore
         .collection("servers")
         .doc(server)
@@ -49,7 +68,8 @@ const Main = () => {
           dispatch(addServer({ ...res.data(), serverId: res.id }));
         });
     });
-  }, [dispatch, checkUser]);
+    console.log('end')
+  },[dispatch, user])
 
   return (
     <>
