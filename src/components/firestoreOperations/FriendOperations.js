@@ -28,3 +28,69 @@ const SearchForFriend = async (input, setResult) => {
 };
 
 export { SearchForFriend };
+
+/**
+ *
+ * @param {Object} user
+ * @param {Object} friend
+ */
+const AddFriend = async (user, friend) => {
+  const {
+    docId: userDocId,
+    displayName: userDisplayName,
+    email: userEmail,
+    photo: userPhoto,
+    friends: userFriendsList,
+  } = user;
+
+  const {
+    docId: friendDocId,
+    displayName: friendDisplayName,
+    email: friendEmail,
+    photo: friendPhoto,
+    friends: friendFriendsList,
+  } = friend;
+
+  const copyUserFriendsList = [...userFriendsList];
+  const copyFriendFriendsList = [...friendFriendsList];
+
+  copyUserFriendsList.push({
+    docId: friendDocId,
+    email: friendEmail,
+    displayName: friendDisplayName,
+    photo: friendPhoto,
+  });
+
+  copyFriendFriendsList.push({
+    docId: userDocId,
+    email: userEmail,
+    displayName: userDisplayName,
+    photo: userPhoto,
+  });
+
+  //First add friend to user
+  try {
+    await firestore
+      .collection("users")
+      .doc(userDocId)
+      .update({ friends: copyUserFriendsList });
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+
+  //Then add user to friend
+  try {
+    await firestore
+      .collection("users")
+      .doc(friendDocId)
+      .update({ friends: copyFriendFriendsList });
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+
+  return true;
+};
+
+export { AddFriend };

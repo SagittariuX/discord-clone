@@ -48,7 +48,7 @@ const SearchFriendCard = ({ handleAccept, searchResult }) => {
         <div>{displayName}</div>
         <div>{email}</div>
       </CardContent>
-      <IconButton className={classes.searchFriendCheck} onClick={handleAccept}>
+      <IconButton className={classes.searchFriendCheck} onClick={() => handleAccept(searchResult)}>
         <CheckIcon />
       </IconButton>
     </Card>

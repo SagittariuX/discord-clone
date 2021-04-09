@@ -9,7 +9,10 @@ import "./css/friends.css";
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
 
-import { SearchForFriend } from "./firestoreOperations/FriendOperations";
+import {
+  AddFriend,
+  SearchForFriend,
+} from "./firestoreOperations/FriendOperations";
 
 //search bar above the friends section
 const FriendsSearchBar = ({
@@ -137,12 +140,11 @@ const FriendsSection = () => {
         return false;
       }
 
-      friendsList.forEach(({ email }) => {
-        if (trimSearchInput === email) {
-          alert("Already on your friends' list");
-          return false;
-        }
-      });
+      const found = friendsList.find(({ email }) => email === trimSearchInput);
+      if (found) {
+        alert("Already on your friends' list");
+        return false;
+      }
 
       return true;
     };
@@ -155,8 +157,12 @@ const FriendsSection = () => {
     setSearchInput("");
   };
 
-  const handleAddFriend = (e) => {
-    console.log("add friend");
+  const handleAddFriend = (friend) => {
+    const success = AddFriend(user, friend);
+    if (success) {
+      setSearchResult({}); // reset results
+      setTabIndex(1); // swap over to friendslist
+    }
   };
 
   return (
