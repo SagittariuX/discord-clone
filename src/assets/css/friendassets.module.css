@@ -1,0 +1,42 @@
+div.friend-card{
+    display: flex;
+    height: 100%;
+    margin: 10px 0px 10px 0px;
+    background-color: var(--friend-card-background-color);
+    color: var(--friend-card-font-color);
+}
+
+div.friend-card-photo{
+    flex: 1;
+    height: 100%;
+}
+
+div.friend-card-detail{
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+button.friend-card-check{
+    flex: 1;
+    color: lightgreen;
+    background-color: green;
+    border-radius: 0;
+}
+
+button.friend-card-check:hover{
+    background-color: darkgreen;
+}
+
+div.search-bar,
+div.search-input-bar {
+  height: 100%;
+  background-color: var(--search-bar-color);
+  color: var(--search-bar-font-color);
+}
+
+div.search-bar {
+  width: 80%;
+  height: 40%;
+  padding: 10px;
+}

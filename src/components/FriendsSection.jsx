@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { Box, Grid, InputBase, Paper, Tabs, Tab } from "@material-ui/core";
+import { Box, Grid, Tabs, Tab, makeStyles } from "@material-ui/core";
 
-import { SearchFriendCard } from "../assets/FriendAssets";
+import { SearchFriendCard, FriendsSearchBar } from "../assets/FriendAssets";
 
 import styles from "./css/friends.module.css";
 
@@ -14,37 +14,12 @@ import {
   SearchForFriend,
 } from "./firestoreOperations/FriendOperations";
 
-//search bar above the friends section
-const FriendsSearchBar = ({
-  searchInput,
-  setSearchInput,
-  handleSearchSubmit,
-}) => {
-  return (
-    <Grid
-      item
-      container
-      alignItems="center"
-      justify="center"
-      style={{ height: "8.33%" }}
-    >
-      <Paper className={styles["search-bar"]}>
-        <InputBase
-          className={styles["search-input-bar"]}
-          fullWidth
-          value={searchInput}
-          placeholder="Search for friends by gmail"
-          onChange={(e) => {
-            setSearchInput(e.target.value);
-          }}
-          onKeyDown={(e) => {
-            if (e.code === "Enter") handleSearchSubmit();
-          }}
-        />
-      </Paper>
-    </Grid>
-  );
-};
+
+const useStyle = makeStyles({
+  indicator:{
+    backgroundColor : 'white'
+  }
+})
 
 //Three tabs and tabpanel below the search bar
 const FriendsList = ({
@@ -55,6 +30,7 @@ const FriendsList = ({
   handleAddFriend,
 }) => {
   //TabIndex 0=search 1=friends 2=server
+  const classes = useStyle();
   return (
     <Grid item style={{ width: "100%", height: "91.66%" }}>
       <Box className={styles["section-wrapper"]}>
@@ -64,6 +40,9 @@ const FriendsList = ({
           value={tabIndex}
           onChange={(e, newValue) => setTabIndex(newValue)}
           aria-label="friends section tab"
+          classes={{
+            indicator: classes.indicator
+          }}
         >
           <Tab label="Search" />
           <Tab label="Friends" />

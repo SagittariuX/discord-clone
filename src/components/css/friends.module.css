@@ -6,19 +6,6 @@ div.section-container {
   background-color: var(--friends-bar) ;
 }
 
-div.search-bar, div.search-input-bar {
-
-  height: 100%;
-  background-color: var(--search-bar-color) ;
-  color: var(--search-bar-font-color) ; 
-}
-
-div.search-bar {
-  width: 80%;
-  height: 40%;
-  padding: 10px;
-}
-
 div.section-wrapper {
   height: 100%;
 }
@@ -33,8 +20,4 @@ div.section-tabpanels{
 div.friends-list {
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-.MuiTabs-indicator {
-  background-color: white !important;
 }

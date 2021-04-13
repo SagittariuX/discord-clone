@@ -2,36 +2,11 @@ import React from "react";
 
 import CheckIcon from "@material-ui/icons/Check";
 
-import {Avatar ,Card, CardContent, IconButton, makeStyles, Grid, Paper, InputBase } from "@material-ui/core";
+import styles from './css/friendassets.module.css'
+
+import {Avatar ,Card, CardContent, IconButton, Grid, Paper, InputBase } from "@material-ui/core";
 
 //All global variables are stored in components/css/main.css
-const cardStyles = makeStyles(() => ({
-  searchFriendCard: {
-    display: "flex",
-    height: '100%',
-    margin: '10px 0 10px 0',
-    backgroundColor: 'var(--friend-card-background-color)',
-    color: 'var(--friend-card-font-color)',
-  },
-  searchFriendPhoto: {
-    flex: 1,
-    height: '100%',
-  },
-  searchFriendDetails: {
-    flex: 3,
-    display: "flex",
-    flexDirection: "column",
-  },
-  searchFriendCheck: {
-    flex: 1,
-    color: 'lightgreen',
-    backgroundColor: 'green',
-    borderRadius: 0,
-    '&:hover' :{
-        backgroundColor: 'darkgreen',
-    }
-  },
-}));
 
 /**
  * View component for TabPanelSearch
@@ -39,16 +14,16 @@ const cardStyles = makeStyles(() => ({
  * @prop {Object} searchResult 
  */
 const SearchFriendCard = ({ handleAccept, searchResult }) => {
-  const classes = cardStyles();
+  
   const {displayName, email, photo} = searchResult;
   return (
-    <Card className={classes.searchFriendCard}>
-      <Avatar className={classes.searchFriendPhoto} alt={displayName} src={photo} />
-      <CardContent className={classes.searchFriendDetails}>
+    <Card className={styles['friend-card']}>
+      <Avatar className={styles['friend-card-photo']} alt={displayName} src={photo} />
+      <CardContent className={styles['friend-card-detail']}>
         <div>{displayName}</div>
         <div>{email}</div>
       </CardContent>
-      <IconButton className={classes.searchFriendCheck} onClick={() => handleAccept(searchResult)}>
+      <IconButton className={styles['friend-card-check']} onClick={() => handleAccept(searchResult)}>
         <CheckIcon />
       </IconButton>
     </Card>
@@ -56,14 +31,6 @@ const SearchFriendCard = ({ handleAccept, searchResult }) => {
 };
 
 export {SearchFriendCard};
-
-
-
-
-
-const searchBarStyles = makeStyles(() => ({
-
-}));
 
 /**
  * Search bar asset used to look up friends
@@ -84,9 +51,9 @@ const FriendsSearchBar = ({
       justify="center"
       style={{ height: "8.33%" }}
     >
-      <Paper className="friends-search-bar">
+      <Paper className={styles["search-bar"]}>
         <InputBase
-          className="friends-search-input-bar"
+          className={styles["search-input-bar"]}
           fullWidth
           value={searchInput}
           placeholder="Search for friends by gmail"
@@ -101,3 +68,5 @@ const FriendsSearchBar = ({
     </Grid>
   );
 };
+
+export {FriendsSearchBar}
