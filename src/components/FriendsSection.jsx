@@ -4,7 +4,7 @@ import { Box, Grid, InputBase, Paper, Tabs, Tab } from "@material-ui/core";
 
 import { SearchFriendCard } from "../assets/FriendAssets";
 
-import "./css/friends.css";
+import styles from "./css/friends.module.css";
 
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
@@ -28,9 +28,9 @@ const FriendsSearchBar = ({
       justify="center"
       style={{ height: "8.33%" }}
     >
-      <Paper className="friends-search-bar">
+      <Paper className={styles["search-bar"]}>
         <InputBase
-          className="friends-search-input-bar"
+          className={styles["search-input-bar"]}
           fullWidth
           value={searchInput}
           placeholder="Search for friends by gmail"
@@ -57,10 +57,10 @@ const FriendsList = ({
   //TabIndex 0=search 1=friends 2=server
   return (
     <Grid item style={{ width: "100%", height: "91.66%" }}>
-      <Box className="friends-section-wrapper">
+      <Box className={styles["section-wrapper"]}>
         <Tabs
           variant="fullWidth"
-          className="friends-section-tabs"
+          className={styles["section-tabs"]}
           value={tabIndex}
           onChange={(e, newValue) => setTabIndex(newValue)}
           aria-label="friends section tab"
@@ -69,7 +69,7 @@ const FriendsList = ({
           <Tab label="Friends" />
           <Tab label="Server" />
         </Tabs>
-        <Box className="friends-list friends-section-tabpanels">
+        <Box className={`${styles['friends-list']} ${styles['section-tabpanels']}`}>
           <TabPanelSearch
             value={tabIndex}
             index={0}
@@ -167,7 +167,7 @@ const FriendsSection = () => {
 
   return (
     <Grid
-      className="friends-section-container"
+      className={styles["section-container"]}
       container
       item
       direction="column"

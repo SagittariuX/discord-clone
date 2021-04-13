@@ -5,7 +5,7 @@ import "./css/main.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { additionalData, selectUser } from "../redux/UserSlice";
-import { addServer, resetServerList, selectServers} from "../redux/ServerSlice";
+import { addServer, resetServerList} from "../redux/ServerSlice";
 
 import firestore from "../redux/Firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -22,9 +22,9 @@ import ChatSection from "./ChatSection";
 //   return l1.every((e) => l2.includes(e));
 // }
 
+
 const Main = () => {
   const user = useSelector(selectUser);
-  const servers = useSelector(selectServers);
 
   const query = firestore
     .collection("users")

@@ -2,9 +2,9 @@ import React from "react";
 
 import CheckIcon from "@material-ui/icons/Check";
 
-import {Avatar ,Card, CardContent, IconButton, makeStyles } from "@material-ui/core";
+import {Avatar ,Card, CardContent, IconButton, makeStyles, Grid, Paper, InputBase } from "@material-ui/core";
 
-//All variables are stored in components/css/main.css
+//All global variables are stored in components/css/main.css
 const cardStyles = makeStyles(() => ({
   searchFriendCard: {
     display: "flex",
@@ -56,3 +56,48 @@ const SearchFriendCard = ({ handleAccept, searchResult }) => {
 };
 
 export {SearchFriendCard};
+
+
+
+
+
+const searchBarStyles = makeStyles(() => ({
+
+}));
+
+/**
+ * Search bar asset used to look up friends
+ * @param {string} searchInput
+ * @param {function} setSearchInput
+ * @param {function} handleSearchSubmit 
+ */
+const FriendsSearchBar = ({
+  searchInput,
+  setSearchInput,
+  handleSearchSubmit,
+}) => {
+  return (
+    <Grid
+      item
+      container
+      alignItems="center"
+      justify="center"
+      style={{ height: "8.33%" }}
+    >
+      <Paper className="friends-search-bar">
+        <InputBase
+          className="friends-search-input-bar"
+          fullWidth
+          value={searchInput}
+          placeholder="Search for friends by gmail"
+          onChange={(e) => {
+            setSearchInput(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.code === "Enter") handleSearchSubmit();
+          }}
+        />
+      </Paper>
+    </Grid>
+  );
+};

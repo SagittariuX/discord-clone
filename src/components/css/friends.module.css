@@ -1,0 +1,40 @@
+/* Styles for FriendsList.jsx */
+div.section-container {
+  max-height: 100%;
+  padding-left: 10px;
+  padding-right: 10px ;
+  background-color: var(--friends-bar) ;
+}
+
+div.search-bar, div.search-input-bar {
+
+  height: 100%;
+  background-color: var(--search-bar-color) ;
+  color: var(--search-bar-font-color) ; 
+}
+
+div.search-bar {
+  width: 80%;
+  height: 40%;
+  padding: 10px;
+}
+
+div.section-wrapper {
+  height: 100%;
+}
+
+div.section-tabs{
+    height: 5%;
+}
+div.section-tabpanels{
+    height: 93%;
+}
+
+div.friends-list {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.MuiTabs-indicator {
+  background-color: white !important;
+}
