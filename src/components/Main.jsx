@@ -68,7 +68,6 @@ const Main = () => {
           dispatch(addServer({ ...res.data(), serverId: res.id }));
         });
     });
-    console.log('end')
   },[dispatch, user])
 
   return (

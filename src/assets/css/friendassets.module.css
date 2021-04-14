@@ -9,6 +9,7 @@ div.friend-card{
 div.friend-card-photo{
     flex: 1;
     height: 100%;
+    border-radius: 0;
 }
 
 div.friend-card-detail{
@@ -27,6 +28,14 @@ button.friend-card-check{
 button.friend-card-check:hover{
     background-color: darkgreen;
 }
+
+button.friend-card-options{
+    flex: 1;
+    color: white;
+    background-color: transparent;
+    border-radius: 0;
+}
+
 
 div.search-bar,
 div.search-input-bar {

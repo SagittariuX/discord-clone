@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { Box, Grid, Tabs, Tab, makeStyles } from "@material-ui/core";
 
-import { SearchFriendCard, FriendsSearchBar } from "../assets/FriendAssets";
+import {
+  SearchFriendCard,
+  FriendsSearchBar,
+  FriendCard,
+  FriendOptions,
+} from "../assets/FriendAssets";
 
 import styles from "./css/friends.module.css";
 
@@ -14,12 +19,12 @@ import {
   SearchForFriend,
 } from "./firestoreOperations/FriendOperations";
 
-
+//Used to change MUI element
 const useStyle = makeStyles({
-  indicator:{
-    backgroundColor : 'white'
-  }
-})
+  indicator: {
+    backgroundColor: "white",
+  },
+});
 
 //Three tabs and tabpanel below the search bar
 const FriendsList = ({
@@ -28,6 +33,7 @@ const FriendsList = ({
   setTabIndex,
   searchResult,
   handleAddFriend,
+  handleRemoveFriend,
 }) => {
   //TabIndex 0=search 1=friends 2=server
   const classes = useStyle();
@@ -41,14 +47,16 @@ const FriendsList = ({
           onChange={(e, newValue) => setTabIndex(newValue)}
           aria-label="friends section tab"
           classes={{
-            indicator: classes.indicator
+            indicator: classes.indicator,
           }}
         >
           <Tab label="Search" />
           <Tab label="Friends" />
           <Tab label="Server" />
         </Tabs>
-        <Box className={`${styles['friends-list']} ${styles['section-tabpanels']}`}>
+        <Box
+          className={`${styles["friends-list"]} ${styles["section-tabpanels"]}`}
+        >
           <TabPanelSearch
             value={tabIndex}
             index={0}
@@ -56,7 +64,12 @@ const FriendsList = ({
             searchResult={searchResult}
             handleAddFriend={handleAddFriend}
           />
-          <TabPanel value={tabIndex} index={1} />
+          <TabPanelFriendList
+            value={tabIndex}
+            index={1}
+            user={user}
+            handleRemoveFriend={handleRemoveFriend}
+          />
           <TabPanel value={tabIndex} index={2} />
         </Box>
       </Box>
@@ -65,13 +78,9 @@ const FriendsList = ({
 };
 
 //Uses Generic Tab Panel and builds on top
-const TabPanelSearch = ({
-  index,
-  value,
-  user,
-  searchResult,
-  handleAddFriend,
-}) => {
+
+//Panel dedicated to searching for friends
+const TabPanelSearch = ({ index, value, searchResult, handleAddFriend }) => {
   return (
     <TabPanel index={index} value={value}>
       {searchResult && Object.keys(searchResult).length > 0 ? (
@@ -82,6 +91,51 @@ const TabPanelSearch = ({
       ) : (
         <div>No Results</div>
       )}
+    </TabPanel>
+  );
+};
+
+//Panel dedicated to current friends
+const TabPanelFriendList = ({ index, value, user, handleRemoveFriend }) => {
+  const { friends: friendsList } = user;
+
+  const [optionsAnchor, setOptionsAnchor] = useState(null);
+  const selectedFriend = useRef(null);
+
+  const handleCloseOptions = () => {
+    setOptionsAnchor(null);
+    selectedFriend.current = null;
+  };
+
+  const handleOpenOptions = (e, friend) => {
+    setOptionsAnchor(e.currentTarget);
+    selectedFriend.current = friend;
+  };
+
+  const open = Boolean(optionsAnchor);
+  const id = open ? "friend-options-popover" : undefined;
+
+  return (
+    <TabPanel index={index} value={value}>
+      {friendsList && friendsList.length > 0 ? (
+        friendsList.map((friend, i) => (
+          <FriendCard
+            key={i}
+            friendInfo={friend}
+            handleOpenOptions={handleOpenOptions}
+          ></FriendCard>
+        ))
+      ) : (
+        <div>Empty</div>
+      )}
+      <FriendOptions
+        id={id}
+        anchor={optionsAnchor}
+        open={open}
+        friend={selectedFriend.current}
+        handleClose={handleCloseOptions}
+        handleRemoveFriend={handleRemoveFriend}
+      />
     </TabPanel>
   );
 };
@@ -144,6 +198,10 @@ const FriendsSection = () => {
     }
   };
 
+  const handleRemoveFriend = (friend) => {
+    console.log(friend);
+  };
+
   return (
     <Grid
       className={styles["section-container"]}
@@ -164,6 +222,7 @@ const FriendsSection = () => {
         user={user}
         searchResult={searchResult}
         handleAddFriend={handleAddFriend}
+        handleRemoveFriend={handleRemoveFriend}
       />
     </Grid>
   );
