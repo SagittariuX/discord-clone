@@ -3,7 +3,7 @@ import firestore from "../../redux/Firebase";
 /**
  * Searches FireBase for friend based on email reference
  * @param {string} input
- * @param {function} setResult
+ * @param {Function} setResult
  */
 
 const SearchForFriend = async (input, setResult) => {
@@ -94,3 +94,55 @@ const AddFriend = async (user, friend) => {
 };
 
 export { AddFriend };
+
+/**
+ *
+ * @param {Object} friend
+ * @param {Object} user
+ */
+const RemoveFriend = async (friend, user) => {
+  //Fetch friend data
+  let friendData = false;
+  try {
+    friendData = await firestore
+      .collection("users")
+      .doc(friend.docId)
+      .get()
+      .then((doc) => {
+        return { ...doc.data(), docId: doc.id };
+      });
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+
+  //First Delete from user friendlist
+  const newUserFriends = user.friends.filter((f) => f.docId !== friend.docId);
+  try {
+    await firestore
+      .collection("users")
+      .doc(user.docId)
+      .update({ friends: newUserFriends });
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+
+  //Delete user from friend's friendlist
+  const newFriendFriends = friendData.friends.filter(
+    (f) => f.docId !== user.docId
+  );
+  try {
+    await firestore
+      .collection("users")
+      .doc(friendData.docId)
+      .update({ friends: newFriendFriends });
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+
+  return true;
+};
+
+export { RemoveFriend };

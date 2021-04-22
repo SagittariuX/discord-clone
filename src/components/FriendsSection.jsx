@@ -17,6 +17,7 @@ import { selectUser } from "../redux/UserSlice";
 import {
   AddFriend,
   SearchForFriend,
+  RemoveFriend
 } from "./firestoreOperations/FriendOperations";
 
 //Used to change MUI element
@@ -96,20 +97,30 @@ const TabPanelSearch = ({ index, value, searchResult, handleAddFriend }) => {
 };
 
 //Panel dedicated to current friends
-const TabPanelFriendList = ({ index, value, user, handleRemoveFriend }) => {
+const TabPanelFriendList = ({ index, value, user}) => {
   const { friends: friendsList } = user;
 
   const [optionsAnchor, setOptionsAnchor] = useState(null);
   const selectedFriend = useRef(null);
+
+  const handleOpenOptions = (e, friend) => {
+    setOptionsAnchor(e.currentTarget);
+    selectedFriend.current = friend;
+  };
 
   const handleCloseOptions = () => {
     setOptionsAnchor(null);
     selectedFriend.current = null;
   };
 
-  const handleOpenOptions = (e, friend) => {
-    setOptionsAnchor(e.currentTarget);
-    selectedFriend.current = friend;
+  const handleRemoveFriend = (friend) => {
+    
+    RemoveFriend(friend, user).then(success => {
+      if(success){
+        handleCloseOptions();
+      }
+    });
+    
   };
 
   const open = Boolean(optionsAnchor);
@@ -191,15 +202,12 @@ const FriendsSection = () => {
   };
 
   const handleAddFriend = (friend) => {
-    const success = AddFriend(user, friend);
-    if (success) {
-      setSearchResult({}); // reset results
-      setTabIndex(1); // swap over to friendslist
-    }
-  };
-
-  const handleRemoveFriend = (friend) => {
-    console.log(friend);
+    AddFriend(user, friend).then(success => {
+      if (success) {
+        setSearchResult({}); // reset results
+        setTabIndex(1); // swap over to friendslist
+      }
+    });
   };
 
   return (
@@ -222,7 +230,6 @@ const FriendsSection = () => {
         user={user}
         searchResult={searchResult}
         handleAddFriend={handleAddFriend}
-        handleRemoveFriend={handleRemoveFriend}
       />
     </Grid>
   );
