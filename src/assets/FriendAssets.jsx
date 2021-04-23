@@ -114,6 +114,7 @@ export const FriendCard = ({ friendInfo, handleOpenOptions }) => {
  * @param {string|undefined} id
  * @param {boolean} open
  * @param {HTML Element} anchor
+ * @param {Object} friend
  * @param {function} handleClose
  * @param {function} handleRemoveFriend
  */
@@ -141,6 +142,47 @@ export const FriendOptions = ({
       }}
     >
       <Button onClick={() => handleRemoveFriend(friend)}>
+        Remove
+      </Button>
+    </Popover>
+  );
+};
+
+
+/**
+ * Using MUI popover component to allow user to use options
+ * https://material-ui.com/components/popover/
+ * @param {string|undefined} id
+ * @param {boolean} open
+ * @param {HTML Element} anchor
+ * @param {Object} member
+ * @param {function} handleClose
+ * @param {function} handleRemoveFriend
+ */
+export const ServerMemberOptions = ({
+  id,
+  open,
+  anchor,
+  member,
+  handleClose,
+  handleRemoveMember,
+}) => {
+  return (
+    <Popover
+      id={id}
+      open={open}
+      anchorEl={anchor}
+      onClose={() => handleClose()}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+    >
+      <Button onClick={() => handleRemoveMember(member)}>
         Remove
       </Button>
     </Popover>

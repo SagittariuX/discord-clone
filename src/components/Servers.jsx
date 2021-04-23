@@ -33,7 +33,9 @@ const Servers = () => {
   const servers = useSelector(selectServers);
 
   const handleCreateServer = () => {
+    //For Future: Make this into a modal or dialog
     const name = prompt("Enter a server name (Max length 15)");
+
     if (name === null) return;
     if (!name.trim()) return;
     if (name.length > 15) {
@@ -58,7 +60,7 @@ const Servers = () => {
         onClick={handleCreateServer}
       />
 
-      {/* Figure out a way in the future to use modal forms */}
+      
     </Grid>
   );
 };

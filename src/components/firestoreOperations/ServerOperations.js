@@ -2,16 +2,27 @@ import firebase from "firebase";
 import firestore from "../../redux/Firebase";
 
 //used to create new servers
-const UserCreateServer = async (serverName, user) => {
+/**
+ *
+ * @param {string} serverName
+ * @param {Object} user
+ */
+export const UserCreateServer = async (serverName, user) => {
   const docref = await CreateNewServer(serverName, user);
   await UpdateUserWithServer(docref.id, user);
 };
 
+/**
+ *
+ * @param {string} serverName
+ * @param {Object} user
+ */
 const CreateNewServer = async (serverName, user) => {
   try {
     return await firestore.collection("servers").add({
       name: serverName,
       members: [user.docId],
+      admin: [user.docId],
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
   } catch (e) {
@@ -19,6 +30,11 @@ const CreateNewServer = async (serverName, user) => {
   }
 };
 
+/**
+ *
+ * @param {string} serverId
+ * @param {Object} user
+ */
 const UpdateUserWithServer = async (serverId, user) => {
   try {
     return await firestore
@@ -31,5 +47,3 @@ const UpdateUserWithServer = async (serverId, user) => {
     console.log(e);
   }
 };
-
-export { UserCreateServer };

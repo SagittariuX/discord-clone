@@ -13,6 +13,7 @@ import styles from "./css/friends.module.css";
 
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/UserSlice";
+import { selectCurrentServer} from "../redux/ServerSlice";
 
 import {
   AddFriend,
@@ -34,7 +35,6 @@ const FriendsList = ({
   setTabIndex,
   searchResult,
   handleAddFriend,
-  handleRemoveFriend,
 }) => {
   //TabIndex 0=search 1=friends 2=server
   const classes = useStyle();
@@ -69,9 +69,8 @@ const FriendsList = ({
             value={tabIndex}
             index={1}
             user={user}
-            handleRemoveFriend={handleRemoveFriend}
           />
-          <TabPanel value={tabIndex} index={2} />
+          <TabPanelServerMembers value={tabIndex} index={2} />
         </Box>
       </Box>
     </Grid>
@@ -151,6 +150,17 @@ const TabPanelFriendList = ({ index, value, user}) => {
   );
 };
 
+const TabPanelServerMembers = ({index, value, server}) => {
+  
+
+  return (
+    <TabPanel index={index} value={value} >
+      Empty Members
+    </TabPanel>
+  );
+}
+
+
 //Generic Panel
 const TabPanel = ({ index, value, children }) => {
   return (
@@ -165,6 +175,7 @@ const FriendsSection = () => {
   const [searchResult, setSearchResult] = useState({});
   const [tabIndex, setTabIndex] = useState(1); // 0 = Search 1 = Friends 2 = Server
   const user = useSelector(selectUser);
+  const server = useSelector(selectCurrentServer);
 
   //Finding Friend via Email
   const handleSearchSubmit = () => {
@@ -228,6 +239,7 @@ const FriendsSection = () => {
         tabIndex={tabIndex}
         setTabIndex={setTabIndex}
         user={user}
+        server={server}
         searchResult={searchResult}
         handleAddFriend={handleAddFriend}
       />

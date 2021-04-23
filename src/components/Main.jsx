@@ -59,6 +59,8 @@ const Main = () => {
     //compare serverList before continue
     //if comparison is true there is no need to redo servers    
     dispatch(resetServerList());
+    
+
     user.servers.forEach((server) => {
       firestore
         .collection("servers")
